@@ -332,9 +332,9 @@
   }
 
   /* ---------- SHARE FAB ---------- */
-  .share-fab{ position:fixed; bottom:22px; inset-inline-end:22px; z-index:120; }
+  .share-fab{ position:fixed; bottom:calc(22px + var(--bar-h)); inset-inline-end:22px; z-index:120; }
   .music-fab{
-    position:fixed; bottom:22px; inset-inline-end:86px; z-index:120;
+    position:fixed; bottom:calc(22px + var(--bar-h)); inset-inline-end:86px; z-index:120;
     width:44px; height:44px; border-radius:50%; border:1px solid var(--line); cursor:pointer;
     background:var(--panel); color:var(--brass);
     display:flex; align-items:center; justify-content:center;
@@ -405,7 +405,7 @@
 
   /* ---------- iOS 26 LIQUID GLASS DOCK ---------- */
   .ios-dock{
-    position:fixed; bottom:22px; inset-inline-start:16px; z-index:125;
+    position:fixed; bottom:calc(22px + var(--bar-h)); inset-inline-start:16px; z-index:125;
     display:flex; flex-direction:column; align-items:center; gap:12px;
   }
   .dock-options{
@@ -452,7 +452,7 @@
   .dock-slot.active{ background:linear-gradient(135deg, var(--brass), var(--rust)); color:var(--ink-fixed); }
   .dock-divider{ width:24px; height:1px; background:var(--glass-border); margin:1px 0; }
   .dock-pop{
-    position:fixed; top:auto; bottom:22px; inset-inline-start:78px; transform:translateX(-10px); max-height:calc(100vh - 44px); overflow-y:auto;
+    position:fixed; top:auto; bottom:calc(22px + var(--bar-h)); inset-inline-start:78px; transform:translateX(-10px); max-height:calc(100vh - 44px - var(--bar-h)); overflow-y:auto;
     z-index:124; width:240px; max-width:min(74vw, 240px);
     background:var(--panel);
     backdrop-filter:blur(20px) saturate(160%); -webkit-backdrop-filter:blur(20px) saturate(160%);
@@ -481,6 +481,66 @@
     .dock-pop{ inset-inline-start:72px; }
   }
 
+  /* ---------- ROOMS (pages): home cards + bottom bar ---------- */
+  :root{ --bar-h:0px; }
+  body.has-roombar{ --bar-h:calc(66px + env(safe-area-inset-bottom, 0px)); padding-bottom:var(--bar-h); }
+  .room-off{ display:none !important; }
+  #site-content.room-enter > [data-room]:not(.room-off){ animation:roomIn .35s ease backwards; }
+  @keyframes roomIn{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:none; } }
+  .rooms-section{ padding:34px 0 46px; border-bottom:1px solid var(--line); }
+  .rooms-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; max-width:780px; margin:0 auto; }
+  .room-card{
+    position:relative; text-align:start; cursor:pointer; padding:18px 16px 16px; border-radius:18px;
+    border:1px solid var(--glass-border); background:var(--glass-bg); color:var(--text);
+    display:flex; flex-direction:column; gap:8px; font-family:var(--body);
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    transition:transform .2s, border-color .2s, box-shadow .2s;
+  }
+  .room-card:hover{ transform:translateY(-3px); border-color:rgba(154,82,255,.55); box-shadow:0 0 24px rgba(154,82,255,.25), 0 0 40px rgba(61,139,255,.14); }
+  .room-card:active{ transform:scale(.98); }
+  .room-card .room-ico, .room-title .room-ico{
+    width:44px; height:44px; border-radius:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    background:linear-gradient(135deg, rgba(154,82,255,.28), rgba(61,139,255,.28)); color:var(--brass-bright);
+  }
+  .room-card b{ font-family:var(--head); font-size:16px; color:var(--paper); }
+  .room-card small{ font-size:12.5px; line-height:1.7; color:var(--muted); }
+  .room-card .room-go{ position:absolute; top:16px; inset-inline-end:16px; color:var(--brass-bright); font-size:18px; opacity:.8; }
+  .room-card.sos .room-ico{ background:rgba(239,68,68,.18); color:#ff8fa3; }
+  .room-card.sos:hover{ border-color:rgba(239,68,68,.55); box-shadow:0 0 24px rgba(239,68,68,.2); }
+  .rooms-grid .room-card:last-child{ grid-column:1 / -1; }
+  @media (min-width:700px){
+    .rooms-grid{ grid-template-columns:repeat(6,1fr); }
+    .rooms-grid .room-card{ grid-column:span 2; }
+    .rooms-grid .room-card:nth-child(n+4){ grid-column:span 3; }
+  }
+  .room-banner{ border-bottom:1px solid var(--line); background:linear-gradient(180deg, rgba(154,82,255,.09), transparent); }
+  .room-banner .wrap{ display:flex; align-items:center; gap:14px; padding-top:18px; padding-bottom:18px; flex-wrap:wrap; }
+  .room-back{
+    cursor:pointer; border:1px solid var(--glass-border); background:var(--glass-bg); color:var(--brass-bright);
+    border-radius:999px; padding:8px 14px; font-family:var(--body); font-size:13.5px; flex-shrink:0;
+  }
+  .room-back:hover{ border-color:rgba(154,82,255,.5); }
+  .room-title{ display:flex; align-items:center; gap:12px; min-width:0; }
+  .room-title b{ font-family:var(--head); font-size:19px; color:var(--paper); display:block; }
+  .room-title small{ color:var(--muted); font-size:13px; line-height:1.6; display:block; }
+  .room-bar{ position:fixed; bottom:0; inset-inline:0; z-index:130; display:flex; justify-content:center; padding:0 10px 8px; pointer-events:none; }
+  .room-bar-inner{
+    pointer-events:auto; display:flex; gap:2px; width:100%; max-width:560px; padding:5px; border-radius:26px;
+    background:rgba(14,14,26,.86); border:1px solid var(--glass-border);
+    backdrop-filter:blur(22px) saturate(180%); -webkit-backdrop-filter:blur(22px) saturate(180%);
+    box-shadow:0 10px 30px rgba(0,0,0,.45), 0 0 22px rgba(154,82,255,.14);
+  }
+  :root[data-theme="light"] .room-bar-inner{ background:rgba(255,255,255,.88); box-shadow:0 8px 26px rgba(20,24,33,.16); }
+  .room-tab{
+    flex:1; min-width:0; display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 2px 5px;
+    border:none; background:transparent; color:var(--muted); cursor:pointer; border-radius:20px;
+    font-family:var(--body); font-size:10.5px; line-height:1.2; transition:background .2s, color .2s;
+  }
+  .room-tab svg{ width:21px; height:21px; }
+  .room-tab[data-room="sos"] svg{ color:#ff8fa3; }
+  .room-tab.active{ background:linear-gradient(135deg, rgba(154,82,255,.95), rgba(61,139,255,.95)); color:#fff; }
+  .room-tab.active svg{ color:#fff; }
+
   /* ---------- PROFILE / POINTS / BADGES ---------- */
   .dock-pop-profile{ width:270px; max-width:min(80vw, 270px); }
   .vn-profile-level{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
@@ -497,7 +557,7 @@
   .vn-badge-name{ font-size:9.5px; color:var(--text); line-height:1.3; }
 
   .vn-toast{
-    position:fixed; bottom:26px; left:50%; z-index:400;
+    position:fixed; bottom:calc(26px + var(--bar-h)); left:50%; z-index:400;
     transform:translateX(-50%) translateY(20px);
     background:var(--panel); border:1px solid var(--glass-border);
     backdrop-filter:blur(20px) saturate(160%); -webkit-backdrop-filter:blur(20px) saturate(160%);
@@ -5887,6 +5947,176 @@
     }).join('');
   }
 
+  /* ---------- ROOMS (pages): home cards + bottom bar ---------- */
+  const VN_ROOM_ORDER = ['home', 'learn', 'train', 'tools', 'sos', 'about'];
+  const VN_ICONS = {
+    home:  '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
+    learn: '<path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v15H5.5C4.7 19 4 18.3 4 17.5z"/><path d="M20 5.5C20 4.7 19.3 4 18.5 4H13v15h5.5c.8 0 1.5-.7 1.5-1.5z"/>',
+    train: '<rect x="2.5" y="7" width="19" height="11" rx="5"/><path d="M7.5 10.5v4M5.5 12.5h4"/><circle cx="15.5" cy="11.5" r="1" fill="currentColor"/><circle cx="18" cy="13.5" r="1" fill="currentColor"/>',
+    tools: '<rect x="3" y="8" width="18" height="12" rx="2"/><path d="M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/>',
+    sos:   '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M5.6 5.6l3.9 3.9M14.5 14.5l3.9 3.9M18.4 5.6l-3.9 3.9M9.5 14.5l-3.9 3.9"/>',
+    about: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>'
+  };
+  const VN_ROOMS = {
+    home:  { short:'الرئيسية', title:'الرئيسية', keys:['daily-challenge', '@hero', '@glitch', 'stats', 'global-threats', 'threatmap', 'alerts'] },
+    learn: { short:'تعلّم', title:'غرفة التعلّم', sub:'الدروس، طبقات الحماية، القاموس ودراسات الحالة', card:'14 درسًا، طبقات الحماية، قاموس ودراسات حالة',
+             keys:['layers', 'console', 'threats', 'lessons', 'coding', 'case-studies', '@glossary-access', 'glossary', 'visuals', 'resources'] },
+    train: { short:'تدريب', title:'غرفة التدريب', sub:'محاكيات التصيّد والمكالمات، التحديات والألعاب', card:'محاكيات واقعية وتحديات تختبر بها نفسك',
+             keys:['link-game', 'phishing-sim', 'sms-phishing-sim', 'vishing-sim', 'redflags', 'hackerview', 'ctf', 'shell'] },
+    tools: { short:'أدوات', title:'غرفة الأدوات', sub:'فاحص الرسائل، كاشف الصور، كلمات المرور وفحص أمانك', card:'افحص رسائلك وصورك وكلمات مرورك',
+             keys:['safety-check', 'msg-checker', 'photo-privacy', 'tools', 'checklist', 'habit-tracker', 'whatif'] },
+    sos:   { short:'طوارئ', title:'غرفة الطوارئ', sub:'اختُرق حسابي؟ وأشهر أساليب الاحتيال حولنا', card:'اختُرق حسابك؟ ابدأ من هنا فورًا',
+             keys:['incident', 'local-scams'] },
+    about: { short:'عنّا', title:'عنّا وشهادتك', sub:'شهادتك، عن الموقع، التواصل وآراؤك', card:'شهادتك وعن الموقع والتواصل',
+             keys:['certificate', 'about', 'social', 'feedback'] }
+  };
+  let VN_ROOM = 'home';
+
+  function vnIcon(name, size){
+    return '<svg viewBox="0 0 24 24" width="' + size + '" height="' + size + '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + VN_ICONS[name] + '</svg>';
+  }
+
+  function vnInstant(fn){
+    const de = document.documentElement;
+    const prev = de.style.scrollBehavior;
+    de.style.scrollBehavior = 'auto';
+    try{ fn(); }finally{ de.style.scrollBehavior = prev; }
+  }
+
+  function vnRoomHolder(el){
+    let n = el;
+    while(n && n.parentElement && n.parentElement.id !== 'site-content') n = n.parentElement;
+    return (n && n.dataset && n.dataset.room) ? n : null;
+  }
+
+  function vnShowRoom(name, opts){
+    opts = opts || {};
+    const c = document.getElementById('site-content');
+    if(!c) return;
+    if(!VN_ROOMS[name]) name = 'home';
+    const changed = name !== VN_ROOM;
+    Array.prototype.forEach.call(c.children, function(el){
+      if(el.dataset && el.dataset.room) el.classList.toggle('room-off', el.dataset.room !== name);
+    });
+    VN_ROOM = name;
+    document.body.setAttribute('data-room', name);
+    document.querySelectorAll('.room-tab').forEach(function(b){
+      const on = b.getAttribute('data-room') === name;
+      b.classList.toggle('active', on);
+      if(on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+    });
+    if(changed && !opts.fromPop){
+      try{ if(opts.silent) history.replaceState({ vnRoom:name }, ''); else history.pushState({ vnRoom:name }, ''); }catch(e){}
+    }
+    if(!opts.noScroll) vnInstant(function(){ window.scrollTo(0, 0); });
+    if(changed || !opts.silent){
+      c.classList.remove('room-enter'); void c.offsetWidth; c.classList.add('room-enter');
+    }
+    try{ updateReadingProgress(); }catch(e){}
+  }
+
+  (function(){
+    const orig = Element.prototype.scrollIntoView;
+    Element.prototype.scrollIntoView = function(){
+      try{
+        const h = vnRoomHolder(this);
+        if(h && h.classList.contains('room-off')) vnShowRoom(h.dataset.room, { noScroll:true });
+      }catch(e){}
+      return orig.apply(this, arguments);
+    };
+  })();
+
+  function initRooms(){
+    const c = document.getElementById('site-content');
+    if(!c || c.getAttribute('data-rooms-ready')) return;
+    c.setAttribute('data-rooms-ready', '1');
+    const byKey = {};
+    Array.prototype.forEach.call(c.children, function(el){
+      if(el.id) byKey[el.id] = el;
+      if(el.classList.contains('hero')) byKey['@hero'] = el;
+      if(el.classList.contains('glitch-strip')) byKey['@glitch'] = el;
+      if(el.tagName === 'SECTION' && !el.id && el.querySelector('.glossary-access')) byKey['@glossary-access'] = el;
+    });
+    const firsts = {};
+    VN_ROOM_ORDER.forEach(function(r){
+      const els = VN_ROOMS[r].keys.map(function(k){ return byKey[k]; }).filter(Boolean);
+      els.forEach(function(e){ e.dataset.room = r; });
+      const sorted = els.slice().sort(function(a, b){ return (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1; });
+      const markers = sorted.map(function(el){ const m = document.createComment('slot'); el.before(m); return m; });
+      markers.forEach(function(m, i){ m.replaceWith(els[i]); });
+      firsts[r] = els[0];
+    });
+
+    // home: room cards right after the hero
+    const grid = document.createElement('section');
+    grid.className = 'rooms-section';
+    grid.dataset.room = 'home';
+    grid.innerHTML =
+      '<div class="wrap"><div class="section-head"><span class="eyebrow">ابدأ من هنا</span><h2>اختر غرفتك</h2>' +
+      '<p>الموقع مقسّم إلى غرف، ادخل التي تحتاجها الآن ولا تتعب في التمرير الطويل.</p></div><div class="rooms-grid">' +
+      ['learn', 'train', 'tools', 'sos', 'about'].map(function(r){
+        const d = VN_ROOMS[r];
+        return '<button type="button" class="room-card' + (r === 'sos' ? ' sos' : '') + '" onclick="vnShowRoom(\'' + r + '\')">' +
+          '<span class="room-ico">' + vnIcon(r, 24) + '</span><b>' + d.title + '</b><small>' + d.card + '</small><span class="room-go">←</span></button>';
+      }).join('') + '</div></div>';
+    const heroEl = byKey['@hero'];
+    if(heroEl) heroEl.after(grid); else c.prepend(grid);
+
+    // banner at the top of every room except home
+    ['learn', 'train', 'tools', 'sos', 'about'].forEach(function(r){
+      const d = VN_ROOMS[r];
+      const b = document.createElement('div');
+      b.className = 'room-banner';
+      b.dataset.room = r;
+      b.innerHTML = '<div class="wrap"><button type="button" class="room-back" onclick="vnShowRoom(\'home\')">→ الرئيسية</button>' +
+        '<div class="room-title"><span class="room-ico">' + vnIcon(r, 24) + '</span><div><b>' + d.title + '</b><small>' + d.sub + '</small></div></div></div>';
+      if(firsts[r]) firsts[r].before(b); else c.appendChild(b);
+    });
+
+    // bottom bar
+    const bar = document.createElement('nav');
+    bar.className = 'room-bar';
+    bar.id = 'room-bar';
+    bar.setAttribute('aria-label', 'غرف الموقع');
+    bar.innerHTML = '<div class="room-bar-inner">' + VN_ROOM_ORDER.map(function(r){
+      return '<button type="button" class="room-tab" data-room="' + r + '" onclick="vnShowRoom(\'' + r + '\')" aria-label="' + VN_ROOMS[r].title + '">' +
+        vnIcon(r, 21) + '<span>' + VN_ROOMS[r].short + '</span></button>';
+    }).join('') + '</div>';
+    c.appendChild(bar);
+    document.body.classList.add('has-roombar');
+
+    document.addEventListener('click', function(e){
+      const a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+      if(!a) return;
+      const h = a.getAttribute('href');
+      if(!h || h.length < 2 || h === '#admin') return;
+      const t = document.getElementById(h.slice(1));
+      if(!t) return;
+      const holder = vnRoomHolder(t);
+      if(!holder || holder.dataset.room === VN_ROOM) return;
+      e.preventDefault();
+      vnShowRoom(holder.dataset.room, { noScroll:true });
+      requestAnimationFrame(function(){ vnInstant(function(){ t.scrollIntoView({ block:'start' }); }); });
+    }, true);
+
+    window.addEventListener('popstate', function(e){
+      const r = (e.state && e.state.vnRoom) ? e.state.vnRoom : 'home';
+      vnShowRoom(r, { fromPop:true });
+    });
+
+    vnShowRoom('home', { silent:true, noScroll:true });
+    try{ history.replaceState({ vnRoom:'home' }, ''); }catch(e){}
+    const hh = window.location.hash;
+    if(hh && hh.length > 1 && hh !== '#admin'){
+      const t = document.getElementById(hh.slice(1));
+      const holder = t ? vnRoomHolder(t) : null;
+      if(holder){
+        vnShowRoom(holder.dataset.room, { silent:true, noScroll:true });
+        setTimeout(function(){ vnInstant(function(){ t.scrollIntoView({ block:'start' }); }); }, 60);
+      }
+    }
+  }
+
   function unlockSite(){
     const tpl = document.getElementById('site-template');
     const container = document.getElementById('site-content');
@@ -5910,6 +6140,7 @@
     renderIncomingChallenge();
     initTrackTabs('lessons');
     initTrackTabs('coding');
+    try{ initRooms(); }catch(e){ console.error(e); }
     initTheme();
     window.addEventListener('scroll', updateReadingProgress, { passive: true });
     updateReadingProgress();
