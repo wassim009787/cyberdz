@@ -507,11 +507,10 @@
   .room-card .room-go{ position:absolute; top:16px; inset-inline-end:16px; color:var(--brass-bright); font-size:18px; opacity:.8; }
   .room-card.sos .room-ico{ background:rgba(239,68,68,.18); color:#ff8fa3; }
   .room-card.sos:hover{ border-color:rgba(239,68,68,.55); box-shadow:0 0 24px rgba(239,68,68,.2); }
-  .rooms-grid .room-card:last-child{ grid-column:1 / -1; }
+  .rooms-grid .room-card:last-child:nth-child(odd){ grid-column:1 / -1; }
   @media (min-width:700px){
-    .rooms-grid{ grid-template-columns:repeat(6,1fr); }
-    .rooms-grid .room-card{ grid-column:span 2; }
-    .rooms-grid .room-card:nth-child(n+4){ grid-column:span 3; }
+    .rooms-grid{ grid-template-columns:repeat(3,1fr); }
+    .rooms-grid .room-card:last-child:nth-child(odd){ grid-column:auto; }
   }
   .room-banner{ border-bottom:1px solid var(--line); background:linear-gradient(180deg, rgba(154,82,255,.09), transparent); }
   .room-banner .wrap{ display:flex; align-items:center; gap:14px; padding-top:18px; padding-bottom:18px; flex-wrap:wrap; }
@@ -540,6 +539,107 @@
   .room-tab[data-room="sos"] svg{ color:#ff8fa3; }
   .room-tab.active{ background:linear-gradient(135deg, rgba(154,82,255,.95), rgba(61,139,255,.95)); color:#fff; }
   .room-tab.active svg{ color:#fff; }
+
+
+  /* ---------- ARCADE (games room) ---------- */
+  .arc-menu[hidden], .arc-stage[hidden]{ display:none !important; }
+  body.arc-on .share-fab, body.arc-on .music-fab, body.arc-on .ios-dock{ opacity:0 !important; pointer-events:none !important; }
+  .arc-menu{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; max-width:720px; margin:0 auto; }
+  .arc-card{
+    position:relative; text-align:start; cursor:pointer; padding:18px 16px 16px; border-radius:18px;
+    border:1px solid var(--glass-border); background:var(--glass-bg); color:var(--text);
+    display:flex; flex-direction:column; gap:8px; font-family:var(--body); -webkit-tap-highlight-color:transparent;
+    transition:transform .2s, border-color .2s, box-shadow .2s;
+  }
+  .arc-card:hover{ transform:translateY(-3px); border-color:rgba(154,82,255,.55); box-shadow:0 0 24px rgba(154,82,255,.25), 0 0 40px rgba(61,139,255,.14); }
+  .arc-card:active{ transform:scale(.98); }
+  .arc-card .arc-ico{ font-size:30px; line-height:1; }
+  .arc-card b{ font-family:var(--head); font-size:15.5px; color:var(--paper); }
+  .arc-card small{ font-size:12.5px; line-height:1.7; color:var(--muted); }
+  .arc-card .arc-best{ font-family:var(--mono); font-size:11.5px; color:var(--brass-bright); margin-top:2px; min-height:1.2em; }
+  .arc-stage{ max-width:620px; margin:0 auto; border:1px solid var(--glass-border); background:var(--glass-bg); border-radius:20px; padding:16px; }
+  .arc-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:14px; }
+  .arc-top b{ font-family:var(--head); font-size:16px; color:var(--paper); }
+  .arc-back{ cursor:pointer; border:1px solid var(--glass-border); background:var(--glass-bg); color:var(--brass-bright); border-radius:999px; padding:8px 14px; font-family:var(--body); font-size:13.5px; flex-shrink:0; }
+  .arc-intro{ text-align:center; padding:10px 6px 6px; }
+  .arc-intro p{ color:var(--muted); line-height:1.9; margin-bottom:16px; font-size:15px; }
+  .arc-note{ color:var(--muted); font-size:13.5px; line-height:1.8; margin:0 0 12px; }
+  .arc-hud{ display:flex; justify-content:space-between; align-items:center; font-size:13.5px; color:var(--muted); margin-bottom:10px; gap:8px; }
+  .arc-hud b{ color:var(--paper); }
+  .arc-actions{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:10px; }
+  .arc-actions .btn{ padding:12px 20px; }
+  .arc-field{
+    position:relative; height:340px; overflow:hidden; border-radius:14px; border:1px solid var(--line);
+    background:linear-gradient(180deg,#0a0a14,#10101f); touch-action:manipulation; user-select:none; -webkit-user-select:none;
+  }
+  .arc-floor{
+    position:absolute; left:0; right:0; bottom:0; height:26px; border-top:2px solid #3d8bff;
+    background:linear-gradient(180deg, rgba(61,139,255,0), rgba(61,139,255,.28));
+    display:flex; align-items:center; justify-content:center; font-size:11px; color:#8ec2ff; letter-spacing:.5px;
+  }
+  .arc-pk{
+    position:absolute; top:0; left:0; padding:8px 11px; border-radius:12px; font-size:13px; line-height:1.3; white-space:nowrap;
+    color:#eef; background:rgba(61,139,255,.18); border:1px solid rgba(142,194,255,.55); box-shadow:0 0 14px rgba(61,139,255,.25);
+    cursor:pointer; will-change:transform; -webkit-tap-highlight-color:transparent;
+  }
+  .arc-pk.ok{ background:rgba(34,197,94,.4); border-color:#22c55e; opacity:0; transition:opacity .22s; }
+  .arc-pk.no{ background:rgba(239,68,68,.45); border-color:#ef4444; opacity:0; transition:opacity .22s; }
+  .arc-field.breach{ animation:arcBreach .35s; }
+  @keyframes arcBreach{ 0%,100%{ box-shadow:none; } 50%{ box-shadow:inset 0 0 40px rgba(239,68,68,.65); border-color:#ef4444; } }
+  .arc-over{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+    text-align:center; padding:20px; background:rgba(8,8,14,.9); color:#fff;
+  }
+  .arc-over b{ font-family:var(--head); font-size:20px; }
+  .arc-over p{ color:#c7c7e6; font-size:14.5px; line-height:1.8; margin:0 0 6px; }
+  .arc-cipher{ background:#0a0a14; border:1px solid var(--line); border-radius:14px; padding:18px 12px; text-align:center; direction:ltr; }
+  .arc-ct, .arc-pt{ font-family:var(--mono); font-size:clamp(19px,5.6vw,26px); letter-spacing:3px; word-break:break-word; line-height:1.5; }
+  .arc-ct{ color:#ff9fb2; }
+  .arc-pt{ color:#c4b5fd; min-height:1.5em; }
+  .arc-arrow{ color:var(--muted); margin:6px 0; font-size:12px; }
+  .arc-cipher.solved .arc-pt{ color:#4ade80; text-shadow:0 0 14px rgba(74,222,128,.5); }
+  .arc-shift{ display:flex; align-items:center; gap:10px; margin:18px 0 6px; direction:ltr; }
+  .arc-shift input[type=range]{ flex:1; accent-color:#9a52ff; height:32px; min-width:0; }
+  .arc-sbtn{ width:46px; height:46px; border-radius:12px; border:1px solid var(--glass-border); background:var(--glass-bg); color:var(--paper); font-size:22px; cursor:pointer; flex-shrink:0; }
+  .arc-sbtn:disabled{ opacity:.4; cursor:default; }
+  .arc-shift-val{ text-align:center; color:var(--muted); font-size:14px; margin-bottom:10px; }
+  .arc-shift-val b{ color:var(--paper); }
+  .arc-hint{ text-align:center; color:var(--brass-bright); font-size:14px; line-height:1.8; min-height:1.8em; }
+  .arc-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .arc-mc{
+    min-height:92px; border-radius:12px; border:1px solid var(--glass-border); color:var(--paper); cursor:pointer; padding:6px;
+    background:linear-gradient(135deg, rgba(154,82,255,.24), rgba(61,139,255,.24)); font-family:var(--body);
+    display:flex; align-items:center; justify-content:center; text-align:center; font-size:12.5px; line-height:1.55; -webkit-tap-highlight-color:transparent;
+  }
+  .arc-mc .arc-bk{ display:none; }
+  .arc-mc .arc-fr{ font-size:26px; opacity:.7; }
+  .arc-mc.up{ background:var(--panel-2); border-color:var(--brass); }
+  .arc-mc.up .arc-fr{ display:none; }
+  .arc-mc.up .arc-bk{ display:block; }
+  .arc-mc.term .arc-bk{ font-weight:700; color:var(--brass-bright); font-size:13.5px; }
+  .arc-mc.done{ border-color:#22c55e; background:rgba(34,197,94,.14); cursor:default; }
+  .arc-prog{ height:6px; border-radius:4px; background:rgba(255,255,255,.1); margin-bottom:10px; overflow:hidden; }
+  .arc-prog i{ display:block; height:100%; width:0; background:linear-gradient(90deg,#9a52ff,#4ade80); transition:width .12s; }
+  .arc-term{
+    position:relative; height:300px; overflow:hidden; border-radius:12px; background:#05070d; border:1px solid rgba(74,222,128,.35);
+    box-shadow:0 0 22px rgba(74,222,128,.08) inset; cursor:pointer; touch-action:manipulation; user-select:none; -webkit-user-select:none;
+  }
+  .arc-term pre{
+    margin:0; padding:12px; height:100%; overflow:hidden; direction:ltr; text-align:left; font-family:var(--mono);
+    font-size:12.5px; line-height:1.6; color:#4ade80; white-space:pre-wrap; word-break:break-all;
+  }
+  .arc-grant{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+    text-align:center; padding:20px; background:rgba(5,7,13,.92); color:#fff; cursor:default;
+  }
+  .arc-grant b{ font-family:var(--mono); font-size:22px; color:#4ade80; text-shadow:0 0 16px rgba(74,222,128,.6); letter-spacing:1px; }
+  .arc-grant p{ color:#c7c7e6; font-size:14px; line-height:1.9; margin:0 0 6px; }
+  @media (max-width:420px){
+    .room-bar{ padding:0 6px 8px; }
+    .room-bar-inner{ padding:4px; gap:1px; }
+    .room-tab{ font-size:9.5px; padding:6px 0 5px; }
+    .room-tab svg{ width:19px; height:19px; }
+  }
 
   /* ---------- PROFILE / POINTS / BADGES ---------- */
   .dock-pop-profile{ width:270px; max-width:min(80vw, 270px); }
@@ -1861,7 +1961,7 @@
   <div class="wrap">
     <div class="section-head">
       <h2>تعمّق أكثر: الهاتف تحديدًا</h2>
-      <p>الأمن السيبراني لا يقتصر على الهاتف فقط. أربعة عشر درسًا مركّزة تغطي الصورة الكاملة، من اختراق الأجهزة إلى الاحتيال المالي وأمان الشبكة المنزلية.</p>
+      <p>الأمن السيبراني لا يقتصر على الهاتف فقط. ستة عشر درسًا مركّزة تغطي الصورة الكاملة، من اختراق الأجهزة إلى الاحتيال المالي وأمان الشبكة المنزلية.</p>
     </div>
 
     <div class="track-tabs" data-scope="lessons">
@@ -2275,6 +2375,87 @@
           </div>
           <button type="button" class="btn btn-quiz" onclick="openLessonQuiz('lesson-14', this)">📝 اختبر فهمك في هذا الدرس</button>
           <div class="quiz-host" id="quiz-host-lesson-14"></div>
+          <button class="btn btn-ghost lesson-next" onclick="goToLesson('lesson-15')">التالي</button>
+        </div>
+      </details>
+
+      <details class="lesson-block" id="lesson-15" data-level="beginner">
+        <summary>
+          <span class="lesson-icon"><svg viewBox="0 0 32 32" width="26" height="26" fill="none"><defs><linearGradient id="li15" x1="4" y1="2" x2="28" y2="30"><stop offset="0" stop-color="#c4b5fd"/><stop offset="1" stop-color="#e879f9"/></linearGradient></defs><rect x="3" y="9" width="26" height="15" rx="7.5" stroke="url(#li15)" stroke-width="1.8"/><path d="M10 13.5v6M7 16.5h6" stroke="url(#li15)" stroke-width="1.8" stroke-linecap="round"/><circle cx="21.5" cy="15" r="1.4" fill="url(#li15)"/><circle cx="24.5" cy="18.2" r="1.4" fill="url(#li15)"/></svg></span>
+          <span class="lesson-num">15</span>
+          <span class="lesson-title">فخاخ الألعاب: شحن مزيف وحسابات مسروقة</span>
+          <span class="quiz-score-badge" id="qbadge-lesson-15"></span>
+          <span class="lesson-toggle">+</span>
+        </summary>
+        <div class="lesson-body">
+          <p>الألعاب الشهيرة فيها مال حقيقي: جواهر وعملات وحسابات نادرة. وهذا يجعلها هدفًا مفضّلًا للمحتالين، وأغلب ضحاياهم مراهقون يريدون الشحن بسعر أقل أو الترقّي بسرعة.</p>
+          <p><strong>مساء الجمعة</strong> يصلك إعلان: «اشحن 5000 جوهرة مجانًا! أدخل معرّف لاعبك وسجّل الدخول بحسابك». الصفحة تشبه صفحة اللعبة تمامًا، فتكتب بياناتك. بعد ساعة تُطرد من حسابك، وتكون كلمة المرور والبريد قد تغيّرا، وتضيع الجواهر التي دفعت ثمنها. لم يكسر أحد حماية اللعبة؛ أنت من سلّمتهم المفتاح.</p>
+          <p><strong>أشهر الفخاخ:</strong></p>
+          <ul>
+            <li><strong>مولّدات الجواهر المجانية:</strong> لا توجد طريقة لتوليد عملات اللعبة من موقع خارجي. هذه الصفحات إما تسرق حسابك أو تُغرقك بإعلانات وتحميلات.</li>
+            <li><strong>الشحن من «بائع» أرخص من المتجر:</strong> قد يدفع ببطاقات مسروقة، فتُسحب الجواهر لاحقًا وقد يُحظر حسابك أنت.</li>
+            <li><strong>خدمات «رفع المستوى» أو «التهريب»:</strong> تسلّمهم حسابك ليلعبوا به، وبعضهم يحتفظ به أو يبيعه.</li>
+            <li><strong>بيع الحسابات وشراؤها:</strong> البائع قد يستعيد الحساب لاحقًا عبر بريد الاسترجاع الأصلي، فتخسر المال والحساب معًا. وهي في الغالب مخالفة لشروط اللعبة.</li>
+            <li><strong>ملفات «الهاك» والتعديلات (APK):</strong> ملف من خارج المتجر الرسمي «يمنحك ميزة»، وهو في الحقيقة برنامج يسرق بياناتك.</li>
+            <li><strong>رابط «هدية» من صديق:</strong> قد يكون حسابه مخترقًا ويرسل الرابط نفسه لكل أصدقائه.</li>
+          </ul>
+          <p><strong>كيف تحمي حسابك؟</strong></p>
+          <ul>
+            <li>اشحن من داخل اللعبة أو من المتجر الرسمي فقط، ولو كان السعر أعلى.</li>
+            <li>لا تكتب كلمة مرور حسابك في أي موقع غير اللعبة نفسها، مهما كانت الجائزة.</li>
+            <li>اربط الحساب ببريد خاص بك فعّلتَ عليه التحقق بخطوتين، وبكلمة مرور لا تستخدمها في مكان آخر.</li>
+            <li>لا تثبّت تعديلات أو ملفات APK من خارج المتجر الرسمي.</li>
+            <li>إن خُدعت، أخبر شخصًا تثق به (والدك أو أخاك الأكبر) فورًا. السرعة تنقذ الحساب، والخجل يخدم المحتال.</li>
+          </ul>
+          <div class="callout">
+            <strong>القاعدة الذهبية:</strong> لا شيء مجاني في عالم الجواهر. أي موقع يطلب كلمة مرور حسابك مقابل جائزة فهو يسرق الحساب. وإن حدث ذلك، افتح <a href="#incident" style="color:var(--brass-bright);">دليل الطوارئ</a> واختر «حساب ألعاب».
+          </div>
+          <button type="button" class="btn btn-quiz" onclick="openLessonQuiz('lesson-15', this)">📝 اختبر فهمك في هذا الدرس</button>
+          <div class="quiz-host" id="quiz-host-lesson-15"></div>
+          <button class="btn btn-ghost lesson-next" onclick="goToLesson('lesson-16')">التالي</button>
+        </div>
+      </details>
+
+      <details class="lesson-block" id="lesson-16" data-level="beginner">
+        <summary>
+          <span class="lesson-icon"><svg viewBox="0 0 32 32" width="26" height="26" fill="none"><defs><linearGradient id="li16" x1="4" y1="2" x2="28" y2="30"><stop offset="0" stop-color="#c4b5fd"/><stop offset="1" stop-color="#e879f9"/></linearGradient></defs><rect x="3" y="7" width="26" height="18" rx="3" stroke="url(#li16)" stroke-width="1.8"/><path d="M3 13h26" stroke="url(#li16)" stroke-width="1.8"/><path d="M8 20h7" stroke="url(#li16)" stroke-width="1.8" stroke-linecap="round"/><circle cx="23" cy="20" r="1.4" fill="url(#li16)"/></svg></span>
+          <span class="lesson-num">16</span>
+          <span class="lesson-title">احتيال البريد والبنك: رسائل مزيفة باسم بريدي موب وCCP</span>
+          <span class="quiz-score-badge" id="qbadge-lesson-16"></span>
+          <span class="lesson-toggle">+</span>
+        </summary>
+        <div class="lesson-body">
+          <p>الحساب الجاري البريدي (CCP) وتطبيق بريدي موب صارا جزءًا من حياة كثيرين، ولذلك يستهدفهما المحتالون بصيغ متكررة. الفكرة دائمًا واحدة: يخيفونك أو يغرونك حتى تعطيهم رمزًا أو كلمة مرور بنفسك.</p>
+          <p><strong>رسالة قصيرة</strong> تصلك: «حسابك البريدي موقوف مؤقتًا. حدّث بياناتك خلال 24 ساعة عبر هذا الرابط». يفتح الرابط صفحة تشبه الصفحة الرسمية وتطلب رقم الحساب وكلمة المرور ورمز التأكيد. بعد دقائق تصلك رسالة بعملية لم تقم بها. الصفحة كانت مزيفة، والرمز الذي كتبتَه هو الذي فتح الباب.</p>
+          <p><strong>الصيغ الأكثر شيوعًا:</strong></p>
+          <ul>
+            <li><strong>«حسابك موقوف»:</strong> رسالة SMS أو واتساب فيها رابط «للتحديث» وموعد نهائي قصير.</li>
+            <li><strong>مكالمة «موظف الأمن»:</strong> يقول إن عملية مشبوهة تجري على حسابك، ويطلب رمز التأكيد أو الرقم السري «لإلغائها». هو من يصنع الخوف ثم يظهر كمنقذ.</li>
+            <li><strong>«حوّلتُ لك مبلغًا بالخطأ»:</strong> يطلب إعادته إليه فورًا. تحقق من حسابك عبر التطبيق الرسمي أولًا، وأنهِ الأمر عبر البنك أو البريد لا بتحويل لشخص مجهول.</li>
+            <li><strong>لقطة شاشة «تحويل ناجح»:</strong> مشترٍ يرسل صورة تثبت الدفع ويطلب تسليم السلعة. الصورة تُزوَّر في ثوانٍ، والمعتمد هو رصيدك في تطبيقك الرسمي.</li>
+            <li><strong>تطبيقات وصفحات مقلّدة:</strong> تصلك من رابط في رسالة أو إعلان فتسرق بياناتك.</li>
+            <li><strong>منحة أو مساعدة مالية مقابل «رسوم»:</strong> تحوّل مبلغًا صغيرًا لتستلم كبيرًا، ولا يصلك شيء.</li>
+          </ul>
+          <p><strong>علامات حمراء تكفي للانسحاب:</strong></p>
+          <ul>
+            <li>طلب رمز التأكيد أو كلمة المرور أو الرقم السري. لا جهة حقيقية تطلبها.</li>
+            <li>مهلة قصيرة وتهديد بالإيقاف أو الغرامة.</li>
+            <li>رابط في رسالة بدل التطبيق الرسمي الذي تعرفه.</li>
+            <li>اتصال أو رسالة واتساب من رقم عادي باسم مؤسسة رسمية.</li>
+          </ul>
+          <p><strong>كيف تحمي نفسك؟</strong></p>
+          <ul>
+            <li>لا تضغط الرابط. افتح التطبيق الرسمي من أيقونته على هاتفك، أو اكتب عنوان الموقع بنفسك.</li>
+            <li>لا ترسل رمزًا ولا رقمًا سريًا لأي أحد، حتى لو عرف اسمك وبعض بياناتك.</li>
+            <li>لا تعتمد على لقطة شاشة. اطلع على رصيدك بنفسك قبل تسليم أي سلعة.</li>
+            <li>فعّل تنبيهات العمليات، واقفل التطبيق برمز لا يعرفه غيرك.</li>
+            <li><strong>إن وقعت في الفخ:</strong> اتصل بمصلحة البريد أو ببنكك فورًا عبر قنواتها الرسمية، واطلب إيقاف الوصول أو البطاقة، وغيّر كلمة المرور، واحتفظ بلقطات الشاشة وأرقام العمليات، ثم قدّم بلاغًا للجهات المختصة.</li>
+          </ul>
+          <div class="callout">
+            <strong>القاعدة الذهبية:</strong> الموظف الحقيقي لا يطلب رمزك أبدًا. وأي رسالة تقول «حسابك سيُجمَّد» فخ حتى تتأكد من التطبيق الرسمي بنفسك. جرّب <a href="#msg-checker" style="color:var(--brass-bright);">فاحص الرسائل</a>، أو راجع <a href="#local-scams" style="color:var(--brass-bright);">أساليب الاحتيال حولنا</a>، أو افتح <a href="#incident" style="color:var(--brass-bright);">دليل الطوارئ</a> واختر «حساب بنكي أو بريدي».
+          </div>
+          <button type="button" class="btn btn-quiz" onclick="openLessonQuiz('lesson-16', this)">📝 اختبر فهمك في هذا الدرس</button>
+          <div class="quiz-host" id="quiz-host-lesson-16"></div>
           <a href="#checklist" class="btn btn-ghost lesson-next">قائمة الفحص</a>
         </div>
       </details>
@@ -3024,6 +3205,14 @@
           <p><strong>✅ ماذا تفعل:</strong> لا يوجد استثمار بربح مضمون. لا تودع مالًا في منصة لا تعرف ترخيصها، وابحث عن اسمها مع كلمة «نصب» قبل أي خطوة.</p>
         </div>
       </details>
+      <details class="vx-scam">
+        <summary><span class="vx-scam-icon">🎮</span>جواهر أو شحن «مجاني» لألعاب الهاتف</summary>
+        <div class="vx-scam-body">
+          <p><strong>كيف تعمل:</strong> إعلان أو رابط يعدك بجواهر أو عملات مجانية، أو شحنًا بنصف السعر، ويطلب منك معرّف اللاعب ثم تسجيل الدخول بحسابك في صفحة تشبه صفحة اللعبة.</p>
+          <p><strong>🚩 العلامة الحمراء:</strong> أي موقع غير اللعبة أو المتجر الرسمي يطلب كلمة مرور حسابك أو رمز التحقق.</p>
+          <p><strong>✅ ماذا تفعل:</strong> اشحن من داخل اللعبة أو من المتجر الرسمي فقط. وإن سجّلت دخولك في موقع كهذا، غيّر كلمة المرور فورًا وافتح <a href="#incident" style="color:var(--brass-bright);">دليل الطوارئ</a>.</p>
+        </div>
+      </details>
     </div>
     <div class="incident-note" style="max-width:760px; margin:0 auto;">🆘 <strong>إن وقعت ضحية:</strong> أوقف التواصل فورًا، واحتفظ بلقطات الشاشة وأرقام العمليات، وأبلغ المنصة وبنكك، ثم توجّه إلى الجهات المختصة في بلدك لتقديم بلاغ. ولا تثق بمن يعرض عليك «استرجاع أموالك» مقابل مال، فهو احتيال ثانٍ.</div>
   </div>
@@ -3096,6 +3285,7 @@
         <button type="button" class="incident-btn" onclick="showIncident('instagram', this)">📸 إنستغرام</button>
         <button type="button" class="incident-btn" onclick="showIncident('telegram', this)">✈️ تيليغرام</button>
         <button type="button" class="incident-btn" onclick="showIncident('tiktok', this)">🎵 تيك توك</button>
+        <button type="button" class="incident-btn" onclick="showIncident('games', this)">🎮 حساب ألعاب</button>
         <button type="button" class="incident-btn" onclick="showIncident('bank', this)">🏦 حساب بنكي أو بريدي</button>
         <button type="button" class="incident-btn" onclick="showIncident('phone', this)">📱 هاتفي نفسه</button>
       </div>
@@ -3144,6 +3334,26 @@
       </span>
       <span class="glossary-access-arrow">↑</span>
     </a>
+  </div>
+</section>
+
+<section id="arcade" style="padding:56px 0 70px; border-top:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">استراحة المحارب</span>
+      <h2>ألعاب خفيفة بطعم الهاكرز</h2>
+      <p>أربع ألعاب قصيرة للتسلية، وكل واحدة تعلّمك شيئًا دون أن تشعر. تُحفظ أفضل نتائجك على جهازك فقط.</p>
+    </div>
+    <div class="arc-menu" id="arc-menu">
+      <button type="button" class="arc-card" onclick="arcOpen('fw')"><span class="arc-ico">🛡️</span><b>حارس الجدار الناري</b><small>اضغط على الحزم الخبيثة فقط، واترك السليمة تمر</small><span class="arc-best" id="arc-best-fw"></span></button>
+      <button type="button" class="arc-card" onclick="arcOpen('cp')"><span class="arc-ico">🔐</span><b>فكّ الشيفرة</b><small>حرّك المؤشر حتى تظهر الجملة الحقيقية</small><span class="arc-best" id="arc-best-cp"></span></button>
+      <button type="button" class="arc-card" onclick="arcOpen('mm')"><span class="arc-ico">🧠</span><b>ذاكرة المصطلحات</b><small>طابق كل مصطلح مع معناه بأقل محاولات</small><span class="arc-best" id="arc-best-mm"></span></button>
+      <button type="button" class="arc-card" onclick="arcOpen('ht')"><span class="arc-ico">💻</span><b>اختراق تمثيلي</b><small>اضغط في أي مكان وشاهد الشاشة تعمل كأفلام الهاكرز</small><span class="arc-best" id="arc-best-ht"></span></button>
+    </div>
+    <div class="arc-stage" id="arc-stage" hidden>
+      <div class="arc-top"><button type="button" class="arc-back" onclick="arcClose()">→ الألعاب</button><b id="arc-title"></b></div>
+      <div id="arc-host"></div>
+    </div>
   </div>
 </section>
 
@@ -3420,6 +3630,20 @@
       { q:'لماذا تُعدّ رسائل SMS أضعف نسبيًا؟', options:['لأنها بطيئة دائمًا','لأنها قد تُعترض أو يُسرق رقمك بحيلة تبديل الشريحة','لأنها مدفوعة دائمًا','لأنها لا تعمل خارج البلد'], correct:1, explain:'من يسيطر على رقمك يستقبل رموزك. لذلك يُنصح بتطبيق المصادقة متى توفّر.' },
       { q:'ما رموز الاسترداد (Backup Codes) ولماذا تُحفظ؟', options:['رموز تعلن عن جوائز','رموز تُستعمل للدخول إن ضاع هاتفك، وتُحفظ بعيدًا عنه','رموز لتغيير اسم الحساب','رموز يطلبها الدعم الفني بالهاتف'], correct:1, explain:'هي مفتاحك الاحتياطي. احفظها في مكان آمن خارج الهاتف، ولا تشاركها مع أحد.' },
       { q:'وصلك إشعار «هل هذا أنت؟» لمحاولة دخول لم تقم بها. ماذا تفعل؟', options:['أوافق كي يتوقف الإشعار','أرفض وأغيّر كلمة مرورك فورًا','أتجاهله وأحذف التطبيق','أطلب من صديق أن يوافق عني'], correct:1, explain:'الإشعار يعني أن أحدًا يعرف كلمة مرورك ويحاول الدخول. الرفض وتغيير كلمة المرور يغلقان الباب.' }
+    ],
+    'lesson-15': [
+      { q:'موقع يعدك بجواهر مجانية مقابل تسجيل الدخول بحساب اللعبة. ما الحقيقة؟', options:['عرض رسمي من شركة اللعبة','صفحة تسرق بيانات حسابك في الغالب','طريقة آمنة ما دام تصميمها جميلًا','لا يضر إلا إن دفعت مالًا'], correct:1, explain:'لا يوجد توليد مجاني للعملات من موقع خارجي. هذه الصفحات تأخذ كلمة مرورك وتسرق الحساب.' },
+      { q:'ما الخطر عند الشحن من بائع غير رسمي بسعر منخفض جدًا؟', options:['لا خطر إطلاقًا','قد تكون البطاقة مسروقة، فيُحظر حسابك أو يضيع مالك','يتأخر الشحن قليلًا فقط','تُحذف اللعبة من هاتفك'], correct:1, explain:'الشحن الرخيص كثيرًا ما يعتمد على بطاقات مسروقة. اشحن من داخل اللعبة أو المتجر الرسمي فقط.' },
+      { q:'لماذا قد يخسر من يشتري حسابًا جاهزًا؟', options:['لأن الحسابات المباعة بطيئة','لأن البائع قد يستعيد الحساب لاحقًا عبر بريد الاسترجاع الأصلي','لأن الأسعار ترتفع بعد الشراء','لأن اللعبة تمسح الحساب بعد يوم'], correct:1, explain:'من يملك بريد الاسترجاع يملك الحساب. وبيع الحسابات غالبًا يخالف شروط اللعبة.' },
+      { q:'ملف تعديل (APK) يعد بميزات خاصة، ومصدره خارج المتجر الرسمي. ماذا تفعل؟', options:['أثبّته مباشرة','لا أثبّته، فقد يسرق بياناتي','أرسله لأصدقائي ليجربوه','أثبّته بعد إيقاف الإنترنت'], correct:1, explain:'الملفات من خارج المتجر الرسمي هي الطريق الأشهر لبرمجيات التجسس وسرقة الحسابات.' },
+      { q:'اختُرق حسابك في لعبة. ما أفضل أول خطوة؟', options:['أدفع لمن يعرض استرجاعه','أغيّر كلمة مرور الحساب المرتبط والبريد من جهاز آخر وأبلغ الدعم الرسمي','أنتظر شهرًا ثم أحاول','أعطي «خبير استرجاع» كلمة مرور بريدي'], correct:1, explain:'الاسترجاع الرسمي مجاني. ومن يطلب مالًا أو كلمة مرور مقابل الاسترجاع محتال ثانٍ.' }
+    ],
+    'lesson-16': [
+      { q:'رسالة تقول «حسابك البريدي موقوف، حدّث بياناتك خلال 24 ساعة» ومعها رابط. ماذا تفعل؟', options:['أضغط وأكتب بياناتي بسرعة','لا أضغط، وأفتح التطبيق الرسمي بنفسي لأتحقق','أرسل الرابط لأصدقائي','أردّ على الرسالة بسؤال'], correct:1, explain:'التهديد بالإيقاف مع مهلة قصيرة هو أسلوب المحتالين. التحقق يكون من التطبيق الرسمي لا من الرابط.' },
+      { q:'اتصل بك «موظف أمن» يطلب رمز التأكيد لإلغاء عملية مشبوهة. ما الصحيح؟', options:['أعطيه الرمز لأنه يعرف اسمي','أنهي المكالمة وأتصل بالجهة عبر قناتها الرسمية','أعطيه نصف الرمز فقط','أطلب رقمه ثم أعطيه الرمز'], correct:1, explain:'الرمز هو ما يسمح بتنفيذ العملية. لا موظف حقيقي يطلبه، ومعرفة اسمك لا تثبت شيئًا.' },
+      { q:'مشترٍ أرسل لقطة شاشة لتحويل ناجح ويطلب تسليم السلعة. ماذا تفعل؟', options:['أسلّم السلعة لأن الصورة واضحة','أتحقق من وصول المبلغ في تطبيقي أو كشف حسابي أولًا','أطلب منه صورة ثانية','أسلّمه نصف السلعة'], correct:1, explain:'لقطات الشاشة تُزوَّر بسهولة. المعتمد هو رصيدك الفعلي في التطبيق الرسمي.' },
+      { q:'شخص يقول إنه حوّل لك مبلغًا بالخطأ ويطلب إعادته فورًا. أفضل تصرف؟', options:['أعيده فورًا لأتخلص من المشكلة','أتحقق من حسابي في التطبيق الرسمي، وأحل الأمر عبر البنك أو البريد لا بتحويل لمجهول','أرسل له رمزي ليسترده بنفسه','أمنحه رصيدي كله'], correct:1, explain:'قد لا يكون هناك تحويل أصلًا، أو يكون من حساب مسروق. التسوية تتم عبر الجهة الرسمية.' },
+      { q:'أي مما يلي علامة حمراء؟', options:['إشعار داخل التطبيق الرسمي بعملية قمتَ بها','مهلة قصيرة وتهديد بإيقاف الحساب مع طلب رمز التأكيد','كشف حسابك الذي تفتحه من تطبيقك','تنبيه وصلك بعد دفعك فاتورة'], correct:1, explain:'الاستعجال والتهديد وطلب الرمز هي الثلاثية الكلاسيكية للاحتيال المالي.' }
     ],
     'code-01': [
       { q:'ما الوظيفة الأساسية لـHTML في صفحة الويب؟', options:['تحديد الألوان والخطوط','بناء الهيكل والمحتوى','إضافة التفاعل والحركة','تخزين بيانات المستخدم'], correct:1, explain:'HTML مسؤولة عن هيكل المحتوى (عناوين، فقرات، صور) — التنسيق مهمة CSS، والتفاعل مهمة JavaScript.' },
@@ -4396,7 +4620,7 @@
   /* ---------- COMPLETION CERTIFICATE ---------- */
   function getCompletionStats(){
     const ids = [];
-    for(let i = 1; i <= 14; i++){ ids.push('lesson-' + String(i).padStart(2, '0')); }
+    for(let i = 1; i <= 16; i++){ ids.push('lesson-' + String(i).padStart(2, '0')); }
     for(let i = 1; i <= 5; i++){ ids.push('code-' + String(i).padStart(2, '0')); }
     let completed = 0, totalScore = 0, totalQuestions = 0;
     ids.forEach(function(id){
@@ -5220,6 +5444,18 @@
         { t:'راجع الفيديوهات والرسائل ورابط السيرة (Bio) وأي رصيد أو هدايا، واحذف ما نُشر باسمك، ثم حذّر متابعيك.' }
       ]
     },
+    games: {
+      title: 'حساب لعبتك تعرّض للاختراق', warn: true,
+      steps: [
+        { now:true, t:'غيّر كلمة مرور الحساب المرتبط باللعبة (فيسبوك أو جوجل أو حساب الشركة) من جهاز آخر تثق به. من يدخل الحساب المرتبط يدخل لعبتك.' },
+        { now:true, t:'غيّر كلمة مرور بريدك المرتبط بالحساب وفعّل عليه التحقق بخطوتين، فمن يملك البريد يستطيع استرجاع الحساب.' },
+        { now:true, t:'من إعدادات الحساب المرتبط أنهِ الجلسات والأجهزة التي لا تعرفها، وافصل أي تطبيق أو موقع «مولّد» أو «رفع مستوى» سجّلت دخولك به.' },
+        { t:'افتح مركز الدعم الرسمي من داخل اللعبة أو من موقع شركتها، وقدّم بلاغ «حساب مسروق» مع معرّف اللاعب (ID) وأي دليل يثبت ملكيتك مثل إيصالات الشحن.' },
+        { t:'لا تدفع لأي شخص يعرض «استرجاع حسابك» ولا تعطه كلمة مرور. هذا احتيال ثانٍ.' },
+        { t:'احذف أي ملف تعديل أو APK ثبّتَه من خارج المتجر الرسمي، ثم شغّل فحص الحماية في هاتفك.' },
+        { t:'حذّر أصدقاءك في اللعبة إن أرسل المخترق لهم روابط أو طلب شحن باسمك.' }
+      ]
+    },
     bank: {
       title: 'حسابك البنكي أو البريدي تعرّض للاختراق أو الاشتباه', warn: false,
       steps: [
@@ -5501,7 +5737,7 @@
     { id:'pw-guardian',  name:'حارس كلمات المرور',  icon:'🔑', desc:'جرّب مولّد كلمات المرور وفاحص التسريبات' },
     { id:'persistent',   name:'المثابر',            icon:'🔥', desc:'حافظ على سلسلة 7 أيام في أي عادة أمنية' },
     { id:'flag-hunter',  name:'صياد الأعلام',       icon:'🚩', desc:'اعثر على كل أعلام التحدي المخفية' },
-    { id:'graduate',     name:'خريج الأمان',        icon:'🎓', desc:'أكمل اختبارات جميع الدروس الـ19' },
+    { id:'graduate',     name:'خريج الأمان',        icon:'🎓', desc:'أكمل اختبارات جميع الدروس الـ21' },
     { id:'daily-mind',   name:'عقل التحدي اليومي',  icon:'📅', desc:'أجب بشكل صحيح عن 3 تحديات يومية' },
     { id:'vishing-master', name:'كاشف المكالمات',   icon:'📞', desc:'أكمل محاكي التصيّد الصوتي (Vishing) بإجابات كاملة' },
     { id:'responder',    name:'مستجيب الطوارئ',     icon:'🚨', desc:'أكمل خطوات دليلَي طوارئ كاملين' }
@@ -5603,7 +5839,7 @@
   function checkBadgeConditions(){
     try{
       const ids = [];
-      for(let i = 1; i <= 14; i++){ ids.push('lesson-' + String(i).padStart(2, '0')); }
+      for(let i = 1; i <= 16; i++){ ids.push('lesson-' + String(i).padStart(2, '0')); }
       for(let i = 1; i <= 5; i++){ ids.push('code-' + String(i).padStart(2, '0')); }
       const allDone = ids.every(function(id){ return localStorage.getItem('vn_quiz_' + id) !== null; });
       if(allDone) unlockBadge('graduate');
@@ -5916,24 +6152,390 @@
     }).join('');
   }
 
+  /* ---------- ARCADE (games room) ---------- */
+  const ARC_TITLES = { fw:'حارس الجدار الناري', cp:'فكّ الشيفرة', mm:'ذاكرة المصطلحات', ht:'اختراق تمثيلي' };
+  let ARC_CLEAN = null;
+  let ARC_CUR = null;
+
+  function arcGet(k){
+    try{ const v = localStorage.getItem('vn_arc_' + k); return v === null ? null : parseInt(v, 10); }catch(e){ return null; }
+  }
+  function arcSet(k, v){ try{ localStorage.setItem('vn_arc_' + k, String(v)); }catch(e){} }
+  function arcXp(key, pts, why){
+    try{ if(awardOnce(key, pts, why)) checkBadgeConditions(); }catch(e){}
+  }
+  function arcShuffle(a){
+    for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); const t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+
+  function arcMenuRender(){
+    const set = function(id, txt){ const el = document.getElementById('arc-best-' + id); if(el) el.textContent = txt; };
+    const fw = arcGet('fw'), cp = arcGet('cp'), mm = arcGet('mm'), ht = arcGet('ht');
+    set('fw', fw ? 'أفضل نتيجة: ' + fw : 'لم تلعبها بعد');
+    set('cp', cp !== null ? 'أقل تلميحات: ' + cp : 'لم تلعبها بعد');
+    set('mm', mm ? 'أقل محاولات: ' + mm : 'لم تلعبها بعد');
+    set('ht', ht ? 'أنهيتها ✓' : 'لم تلعبها بعد');
+  }
+
+  function arcOpen(id){
+    const stage = document.getElementById('arc-stage');
+    const menu = document.getElementById('arc-menu');
+    const host = document.getElementById('arc-host');
+    if(!stage || !menu || !host) return;
+    if(ARC_CLEAN){ try{ ARC_CLEAN(); }catch(e){} ARC_CLEAN = null; }
+    ARC_CUR = id;
+    document.body.classList.add('arc-on');
+    menu.hidden = true;
+    stage.hidden = false;
+    document.getElementById('arc-title').textContent = ARC_TITLES[id] || '';
+    host.innerHTML = '';
+    const fn = { fw:arcFirewall, cp:arcCipher, mm:arcMemory, ht:arcHacker }[id];
+    try{ ARC_CLEAN = fn ? fn(host) : null; }catch(e){ console.error(e); }
+    vnInstant(function(){ stage.scrollIntoView({ block:'start' }); });
+  }
+
+  function arcClose(){
+    if(ARC_CLEAN){ try{ ARC_CLEAN(); }catch(e){} ARC_CLEAN = null; }
+    ARC_CUR = null;
+    document.body.classList.remove('arc-on');
+    const stage = document.getElementById('arc-stage');
+    const menu = document.getElementById('arc-menu');
+    const host = document.getElementById('arc-host');
+    if(host) host.innerHTML = '';
+    if(stage) stage.hidden = true;
+    if(menu) menu.hidden = false;
+    arcMenuRender();
+  }
+
+  /* 1) Firewall guardian */
+  function arcFirewall(host){
+    const BAD = ['🎣 رابط «ربحت جائزة»', '🔑 يطلب رمز التحقق', '📦 ملف APK مجهول', '☠️ برنامج فدية', '📲 «حسابك سيُجمَّد!»', '🧪 مولّد جواهر مجاني', '🕵️ «موظف الأمن» يطلب رمزك', '💸 «حوّلتُ لك بالخطأ»'];
+    const GOOD = ['🔄 تحديث من المتجر الرسمي', '👩 رسالة من أمك', '🖼️ صورة عائلية', '📚 واجب المدرسة', '📅 تذكير موعد الطبيب', '🎵 قائمة أغانيك', '🧾 إشعار عملية قمتَ بها'];
+    let raf = 0, last = 0, lives = 3, score = 0, pks = [], over = false, gone = false, spawnIn = 0, field = null, hudS = null, hudL = null;
+
+    function hearts(){ const n = Math.max(lives, 0); return '❤️'.repeat(n) + '🖤'.repeat(3 - n); }
+    function intro(){
+      host.innerHTML = '<div class="arc-intro"><p>حزم قادمة من الإنترنت تسقط نحو شبكتك. <strong>اضغط على الحزمة الخبيثة</strong> لتحظرها قبل أن تصل، و<strong>اترك الحزم السليمة</strong> تمر. عندك ثلاث محاولات للخطأ.</p><button type="button" class="btn btn-primary" id="arc-go">ابدأ اللعبة</button></div>';
+      host.querySelector('#arc-go').onclick = start;
+    }
+    function start(){
+      cancelAnimationFrame(raf);
+      lives = 3; score = 0; pks = []; over = false; last = 0; spawnIn = 300;
+      host.innerHTML = '<div class="arc-hud"><span>النقاط: <b id="fw-s">0</b></span><span id="fw-l"></span><span>الأفضل: <b>' + (arcGet('fw') || 0) + '</b></span></div><div class="arc-field" id="fw-field"><div class="arc-floor"><span>شبكتك</span></div></div>';
+      field = host.querySelector('#fw-field');
+      hudS = host.querySelector('#fw-s');
+      hudL = host.querySelector('#fw-l');
+      hudL.textContent = hearts();
+      field.addEventListener('pointerdown', onTap);
+      raf = requestAnimationFrame(tick);
+    }
+    function hud(){ if(hudS) hudS.textContent = score; if(hudL) hudL.textContent = hearts(); }
+    function flash(){
+      if(!field) return;
+      field.classList.remove('breach'); void field.offsetWidth; field.classList.add('breach');
+      try{ if(navigator.vibrate) navigator.vibrate(40); }catch(e){}
+    }
+    function spawn(){
+      const bad = Math.random() < 0.58;
+      const list = bad ? BAD : GOOD;
+      const el = document.createElement('div');
+      el.className = 'arc-pk';
+      el.textContent = list[Math.floor(Math.random() * list.length)];
+      field.appendChild(el);
+      const w = el.offsetWidth, h = el.offsetHeight;
+      const x = Math.max(0, Math.random() * (field.clientWidth - w));
+      el.style.left = x + 'px';
+      el.style.transform = 'translate3d(0,-' + (h + 4) + 'px,0)';
+      pks.push({ el:el, y:-(h + 4), h:h, bad:bad, dead:false });
+    }
+    function onTap(e){
+      if(over) return;
+      const el = e.target.closest ? e.target.closest('.arc-pk') : null;
+      if(!el) return;
+      const p = pks.find(function(x){ return x.el === el; });
+      if(!p || p.dead) return;
+      p.dead = true;
+      if(p.bad){ score++; el.classList.add('ok'); }
+      else { lives--; el.classList.add('no'); flash(); }
+      setTimeout(function(){ if(el.parentNode) el.remove(); }, 240);
+      pks = pks.filter(function(x){ return !x.dead; });
+      hud();
+      if(lives <= 0) end();
+    }
+    function tick(t){
+      if(gone || over) return;
+      raf = requestAnimationFrame(tick);
+      if(!field || !field.isConnected){ return; }
+      if(field.offsetParent === null || document.hidden){ last = 0; return; }
+      if(!last){ last = t; return; }
+      const dt = Math.min(t - last, 50);
+      last = t;
+      const H = field.clientHeight - 26;
+      const fall = Math.max(2600, 5600 - score * 60);
+      const v = H / fall;
+      spawnIn -= dt;
+      if(spawnIn <= 0){ spawn(); spawnIn = Math.max(520, 1150 - score * 14) + Math.random() * 250; }
+      for(let i = 0; i < pks.length; i++){
+        const p = pks[i];
+        p.y += v * dt;
+        p.el.style.transform = 'translate3d(0,' + p.y + 'px,0)';
+        if(p.y + p.h >= H){
+          p.dead = true;
+          p.el.remove();
+          if(p.bad){ lives--; flash(); }
+        }
+      }
+      pks = pks.filter(function(x){ return !x.dead; });
+      hud();
+      if(lives <= 0) end();
+    }
+    function end(){
+      if(over) return;
+      over = true;
+      cancelAnimationFrame(raf);
+      const best = arcGet('fw') || 0;
+      const rec = score > best;
+      if(rec) arcSet('fw', score);
+      if(score >= 5) arcXp('vn_game_fw', 10, 'لعبت حارس الجدار الناري');
+      const ov = document.createElement('div');
+      ov.className = 'arc-over';
+      ov.innerHTML = '<b>انتهت اللعبة</b><p>حظرت <strong>' + score + '</strong> حزمة خبيثة' + (rec && score > 0 ? '<br>🏆 رقم قياسي جديد!' : '') + '<br><span style="font-size:13px;">الخبيث يتنكّر بالاستعجال والجوائز وطلب الرموز.</span></p><button type="button" class="btn btn-primary" id="arc-again">العب مجددًا</button>';
+      field.appendChild(ov);
+      ov.querySelector('#arc-again').onclick = start;
+      arcMenuRender();
+    }
+    intro();
+    return function(){ gone = true; cancelAnimationFrame(raf); };
+  }
+
+  /* 2) Caesar cipher breaker */
+  function arcCipher(host){
+    const LV = [
+      { p:'HACK', k:1, h:'كل حرف تقدّم مكانًا واحدًا في الأبجدية' },
+      { p:'VIRUS', k:3, h:'الإزاحة 3 هي التي استعملها يوليوس قيصر نفسه' },
+      { p:'PHISHING', k:5, h:'خدعة تصلك برسالة لتسرق بياناتك' },
+      { p:'FIREWALL', k:8, h:'حارس بين شبكتك والإنترنت' },
+      { p:'USE 2FA', k:11, h:'نصيحة عن القفل الثاني (الأرقام والمسافات لا تتغيّر)' },
+      { p:'NEVER SHARE YOUR OTP', k:17, h:'قاعدة ذهبية عن رمز التحقق' },
+      { p:'THINK BEFORE YOU CLICK', k:9, h:'نصيحة قبل ضغط أي رابط' },
+      { p:'STAY SAFE ONLINE', k:14, h:'ختام يليق بالمهمة' }
+    ];
+    let i = 0, hints = 0, gone = false;
+    const enc = function(t, k){ return t.replace(/[A-Z]/g, function(c){ return String.fromCharCode((c.charCodeAt(0) - 65 + k) % 26 + 65); }); };
+    const dec = function(t, k){ return t.replace(/[A-Z]/g, function(c){ return String.fromCharCode(((c.charCodeAt(0) - 65 - k) % 26 + 26) % 26 + 65); }); };
+
+    function level(){
+      const L = LV[i];
+      const ct = enc(L.p, L.k);
+      let stage = 0;
+      host.innerHTML =
+        (i === 0 ? '<p class="arc-note">شيفرة قيصر: كل حرف أُزيح عددًا ثابتًا من الأماكن في الأبجدية. حرّك المؤشر حتى تظهر جملة مفهومة.</p>' : '') +
+        '<div class="arc-hud"><span>المرحلة <b>' + (i + 1) + '</b> من ' + LV.length + '</span><span>التلميحات: <b id="cp-h">' + hints + '</b></span></div>' +
+        '<div class="arc-cipher" id="cp-box"><div class="arc-ct">' + ct + '</div><div class="arc-arrow">▼</div><div class="arc-pt" id="cp-pt">' + ct + '</div></div>' +
+        '<div class="arc-shift"><button type="button" class="arc-sbtn" id="cp-m" aria-label="أنقص">−</button><input type="range" id="cp-r" min="0" max="25" value="0" aria-label="الإزاحة"><button type="button" class="arc-sbtn" id="cp-p" aria-label="زِد">+</button></div>' +
+        '<div class="arc-shift-val">الإزاحة: <b id="cp-v">0</b></div>' +
+        '<div class="arc-hint" id="cp-t"></div>' +
+        '<div class="arc-actions"><button type="button" class="btn btn-ghost" id="cp-hint">💡 تلميح</button><button type="button" class="btn btn-primary" id="cp-next" style="display:none;"></button></div>';
+      const r = host.querySelector('#cp-r'), pt = host.querySelector('#cp-pt'), v = host.querySelector('#cp-v');
+      const t = host.querySelector('#cp-t'), box = host.querySelector('#cp-box');
+      const bm = host.querySelector('#cp-m'), bp = host.querySelector('#cp-p');
+      const bh = host.querySelector('#cp-hint'), bn = host.querySelector('#cp-next');
+      function upd(){
+        const sft = parseInt(r.value, 10);
+        v.textContent = sft;
+        pt.textContent = dec(ct, sft);
+        if(sft === L.k) win();
+      }
+      function win(){
+        box.classList.add('solved');
+        r.disabled = true; bm.disabled = true; bp.disabled = true; bh.style.display = 'none';
+        t.textContent = '✅ أحسنت! الإزاحة الصحيحة ' + L.k;
+        bn.textContent = (i < LV.length - 1) ? 'المرحلة التالية ←' : 'النتيجة ←';
+        bn.style.display = '';
+      }
+      r.addEventListener('input', upd);
+      bm.onclick = function(){ r.value = (parseInt(r.value, 10) + 25) % 26; upd(); };
+      bp.onclick = function(){ r.value = (parseInt(r.value, 10) + 1) % 26; upd(); };
+      bh.onclick = function(){
+        if(stage === 0){ t.textContent = '💡 ' + L.h; stage = 1; hints++; bh.textContent = '💡 تلميح آخر'; }
+        else if(stage === 1){ t.textContent = '💡 الإزاحة الصحيحة هي ' + L.k; stage = 2; hints++; bh.disabled = true; }
+        const hb = host.querySelector('#cp-h'); if(hb) hb.textContent = hints;
+      };
+      bn.onclick = function(){ i++; if(i < LV.length) level(); else finish(); };
+    }
+    function finish(){
+      const b = arcGet('cp');
+      const rec = b === null || hints < b;
+      if(rec) arcSet('cp', hints);
+      arcXp('vn_game_cp', 15, 'فككت كل الشيفرات');
+      host.innerHTML = '<div class="arc-intro"><b style="font-size:20px; color:var(--paper);">🎉 فككت الشيفرات كلها</b><p style="margin-top:12px;">' + (hints === 0 ? 'بدون أي تلميح' : hints === 1 ? 'بتلميح واحد' : hints === 2 ? 'بتلميحين' : 'بـ ' + hints + (hints <= 10 ? ' تلميحات' : ' تلميحًا')) + (rec ? ' (أفضل نتيجة لك 🏆)' : '') + '.<br>شيفرة قيصر قديمة وسهلة الكسر لأن مفاتيحها ست وعشرون فقط. أما التشفير الحديث فمفاتيحه أكبر من أن تُجرَّب واحدًا واحدًا.</p><button type="button" class="btn btn-primary" id="arc-again">العب مجددًا</button></div>';
+      host.querySelector('#arc-again').onclick = function(){ i = 0; hints = 0; level(); };
+      arcMenuRender();
+    }
+    level();
+    return function(){ gone = true; };
+  }
+
+  /* 3) Terms memory */
+  function arcMemory(host){
+    const PAIRS = [
+      ['التصيّد', 'رسالة تخدعك لتسلّم بياناتك'],
+      ['الجدار الناري', 'حارس بين شبكتك والإنترنت'],
+      ['التشفير', 'يحوّل الكلام لرموز لا يفهمها إلا صاحب المفتاح'],
+      ['التحقق بخطوتين', 'قفل ثانٍ بعد كلمة المرور'],
+      ['برنامج الفدية', 'يقفل ملفاتك ويطلب مالًا لفتحها'],
+      ['VPN', 'نفق مشفّر لاتصالك بالإنترنت'],
+      ['الهندسة الاجتماعية', 'خداع الإنسان بدل اختراق الجهاز'],
+      ['كلمة مرور قوية', 'طويلة وفريدة لكل حساب'],
+      ['النسخ الاحتياطي', 'نسخة من ملفاتك تنقذك عند الفقدان'],
+      ['رمز OTP', 'رمز مؤقت لا يُعطى لأي أحد']
+    ];
+    let first = null, lock = false, moves = 0, matched = 0, gone = false, timers = [];
+
+    function start(){
+      timers.forEach(clearTimeout); timers = [];
+      first = null; lock = false; moves = 0; matched = 0;
+      const pick = arcShuffle(PAIRS.slice()).slice(0, 6);
+      const deck = [];
+      pick.forEach(function(p, n){
+        deck.push({ id:n, kind:'term', txt:p[0] });
+        deck.push({ id:n, kind:'mean', txt:p[1] });
+      });
+      arcShuffle(deck);
+      host.innerHTML =
+        '<div class="arc-hud"><span>المحاولات: <b id="mm-m">0</b></span><span>الأفضل: <b>' + (arcGet('mm') || '—') + '</b></span></div>' +
+        '<div class="arc-grid">' + deck.map(function(c, n){
+          return '<button type="button" class="arc-mc ' + c.kind + '" data-n="' + n + '" aria-label="بطاقة"><span class="arc-fr">❓</span><span class="arc-bk">' + c.txt + '</span></button>';
+        }).join('') + '</div>';
+      const cards = host.querySelectorAll('.arc-mc');
+      Array.prototype.forEach.call(cards, function(el, n){
+        el.onclick = function(){ flip(el, deck[n]); };
+      });
+    }
+    function flip(el, c){
+      if(lock || gone || el.classList.contains('up') || el.classList.contains('done')) return;
+      el.classList.add('up');
+      if(!first){ first = { el:el, c:c }; return; }
+      moves++;
+      const mEl = host.querySelector('#mm-m'); if(mEl) mEl.textContent = moves;
+      const a = first; first = null;
+      if(a.c.id === c.id){
+        a.el.classList.remove('up'); a.el.classList.add('up', 'done');
+        el.classList.add('done');
+        matched++;
+        if(matched === 6) timers.push(setTimeout(end, 500));
+      } else {
+        lock = true;
+        timers.push(setTimeout(function(){
+          a.el.classList.remove('up'); el.classList.remove('up'); lock = false;
+        }, 850));
+      }
+    }
+    function end(){
+      if(gone) return;
+      const b = arcGet('mm');
+      const rec = !b || moves < b;
+      if(rec) arcSet('mm', moves);
+      arcXp('vn_game_mm', 10, 'أنهيت ذاكرة المصطلحات');
+      host.innerHTML = '<div class="arc-intro"><b style="font-size:20px; color:var(--paper);">🎉 طابقت كل المصطلحات</b><p style="margin-top:12px;">في ' + moves + (moves <= 10 ? ' محاولات' : ' محاولة') + (rec ? ' (رقم قياسي جديد 🏆)' : '') + '.<br>الحد الأدنى الممكن ست محاولات.</p><button type="button" class="btn btn-primary" id="arc-again">العب مجددًا</button></div>';
+      host.querySelector('#arc-again').onclick = start;
+      arcMenuRender();
+    }
+    start();
+    return function(){ gone = true; timers.forEach(clearTimeout); };
+  }
+
+  /* 4) Pretend hacking terminal */
+  function arcHacker(host){
+    const SCRIPT = [
+      '$ ssh root@fake-server.local',
+      'Connecting to fake-server.local ...... [OK]',
+      '$ ./scan --ports 1-1024',
+      '[*] scanning 1024 ports ...',
+      '[+] port 22   open',
+      '[+] port 80   open',
+      '[-] port 443  filtered',
+      '$ ./bypass --firewall demo',
+      'injecting packets .......... 12%',
+      'injecting packets .......... 47%',
+      'injecting packets .......... 83%',
+      '[+] firewall bypassed (simulation)',
+      '$ ./decrypt --file secrets.enc',
+      'decrypting block 01/08 ...... done',
+      'decrypting block 02/08 ...... done',
+      'decrypting block 03/08 ...... done',
+      'decrypting block 04/08 ...... done',
+      'decrypting block 05/08 ...... done',
+      'decrypting block 06/08 ...... done',
+      'decrypting block 07/08 ...... done',
+      'decrypting block 08/08 ...... done',
+      '$ cat secrets.txt',
+      '> nothing here. this is a movie prop.',
+      '$ exit'
+    ].join('\n') + '\n';
+    let pos = 0, done = false, gone = false;
+    let term = null, out = null, bar = null;
+
+    function render(){
+      out.textContent = SCRIPT.slice(0, pos) + (done ? '' : '▌');
+      out.scrollTop = out.scrollHeight;
+      bar.style.width = Math.min(100, Math.round(pos / SCRIPT.length * 100)) + '%';
+    }
+    function reveal(){
+      if(done || gone) return;
+      pos = Math.min(SCRIPT.length, pos + 6 + Math.floor(Math.random() * 9));
+      render();
+      if(pos >= SCRIPT.length) finish();
+    }
+    function finish(){
+      done = true;
+      render();
+      arcSet('ht', 1);
+      arcXp('vn_game_ht', 5, 'أنهيت الاختراق التمثيلي');
+      const g = document.createElement('div');
+      g.className = 'arc-grant';
+      g.innerHTML = '<b>ACCESS GRANTED</b><p>هذا تمثيل فقط، ولا يوجد نظام حقيقي هنا.<br>في الواقع، أغلب الاختراقات لا تبدأ بشاشة سوداء، بل برسالة تقنعك أنت بالضغط على رابط. الدرس: لا تكن أنت الباب المفتوح.</p><button type="button" class="btn btn-primary" id="arc-again">ابدأ من جديد</button>';
+      term.appendChild(g);
+      g.addEventListener('pointerdown', function(e){ e.stopPropagation(); });
+      g.querySelector('#arc-again').onclick = function(){ g.remove(); pos = 0; done = false; render(); };
+      arcMenuRender();
+    }
+    function onKey(e){
+      if(e.metaKey || e.ctrlKey || e.altKey || e.key === 'Tab' || e.key === 'Escape') return;
+      const tag = e.target && e.target.tagName;
+      if(tag === 'INPUT' || tag === 'TEXTAREA') return;
+      if(e.key === ' ') e.preventDefault();
+      reveal();
+    }
+    host.innerHTML = '<p class="arc-note" style="text-align:center;">اضغط في أي مكان داخل الشاشة (أو اكتب أي مفاتيح) ليظهر الكود، تمامًا كأفلام الهاكرز.</p><div class="arc-prog"><i id="ht-bar"></i></div><div class="arc-term" id="ht-term"><pre id="ht-out"></pre></div>';
+    term = host.querySelector('#ht-term'); out = host.querySelector('#ht-out'); bar = host.querySelector('#ht-bar');
+    term.addEventListener('pointerdown', reveal);
+    document.addEventListener('keydown', onKey);
+    render();
+    return function(){ gone = true; document.removeEventListener('keydown', onKey); };
+  }
+
   /* ---------- ROOMS (pages): home cards + bottom bar ---------- */
-  const VN_ROOM_ORDER = ['home', 'learn', 'train', 'tools', 'sos', 'about'];
+  const VN_ROOM_ORDER = ['home', 'learn', 'train', 'tools', 'games', 'sos', 'about'];
   const VN_ICONS = {
     home:  '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
     learn: '<path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v15H5.5C4.7 19 4 18.3 4 17.5z"/><path d="M20 5.5C20 4.7 19.3 4 18.5 4H13v15h5.5c.8 0 1.5-.7 1.5-1.5z"/>',
     train: '<rect x="2.5" y="7" width="19" height="11" rx="5"/><path d="M7.5 10.5v4M5.5 12.5h4"/><circle cx="15.5" cy="11.5" r="1" fill="currentColor"/><circle cx="18" cy="13.5" r="1" fill="currentColor"/>',
     tools: '<rect x="3" y="8" width="18" height="12" rx="2"/><path d="M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/>',
+    games: '<rect x="4" y="4" width="16" height="16" rx="3.5"/><circle cx="9" cy="9" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="15" cy="15" r="1" fill="currentColor"/><circle cx="15" cy="9" r="1" fill="currentColor"/><circle cx="9" cy="15" r="1" fill="currentColor"/>',
     sos:   '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M5.6 5.6l3.9 3.9M14.5 14.5l3.9 3.9M18.4 5.6l-3.9 3.9M9.5 14.5l-3.9 3.9"/>',
     about: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>'
   };
   const VN_ROOMS = {
     home:  { short:'الرئيسية', title:'الرئيسية', keys:['daily-challenge', '@hero', '@glitch', 'stats', 'global-threats', 'threatmap', 'alerts'] },
-    learn: { short:'تعلّم', title:'غرفة التعلّم', sub:'الدروس، طبقات الحماية، القاموس ودراسات الحالة', card:'14 درسًا، طبقات الحماية، قاموس ودراسات حالة',
+    learn: { short:'تعلّم', title:'غرفة التعلّم', sub:'الدروس، طبقات الحماية، القاموس ودراسات الحالة', card:'16 درسًا، طبقات الحماية، قاموس ودراسات حالة',
              keys:['layers', 'console', 'threats', 'lessons', 'coding', 'case-studies', '@glossary-access', 'glossary', 'visuals', 'resources'] },
     train: { short:'تدريب', title:'غرفة التدريب', sub:'محاكيات التصيّد والمكالمات، التحديات والألعاب', card:'محاكيات واقعية وتحديات تختبر بها نفسك',
              keys:['link-game', 'phishing-sim', 'sms-phishing-sim', 'vishing-sim', 'redflags', 'hackerview', 'ctf', 'shell'] },
     tools: { short:'أدوات', title:'غرفة الأدوات', sub:'فاحص الرسائل، كاشف الصور، كلمات المرور وفحص أمانك', card:'افحص رسائلك وصورك وكلمات مرورك',
              keys:['safety-check', 'msg-checker', 'photo-privacy', 'tools', 'checklist', 'habit-tracker', 'whatif'] },
+    games: { short:'ألعاب', title:'غرفة الألعاب', sub:'تسلية خفيفة بطعم الهاكرز، وتتعلّم وأنت تلعب', card:'ألعاب خفيفة للتسلية والتعلّم', keys:['arcade'] },
     sos:   { short:'طوارئ', title:'غرفة الطوارئ', sub:'اختُرق حسابي؟ وأشهر أساليب الاحتيال حولنا', card:'اختُرق حسابك؟ ابدأ من هنا فورًا',
              keys:['incident', 'local-scams'] },
     about: { short:'عنّا', title:'عنّا وشهادتك', sub:'شهادتك، عن الموقع، التواصل وآراؤك', card:'شهادتك وعن الموقع والتواصل',
@@ -5968,6 +6570,7 @@
       if(el.dataset && el.dataset.room) el.classList.toggle('room-off', el.dataset.room !== name);
     });
     VN_ROOM = name;
+    if(name !== 'games' && ARC_CUR){ try{ arcClose(); }catch(e){} }
     document.body.setAttribute('data-room', name);
     document.querySelectorAll('.room-tab').forEach(function(b){
       const on = b.getAttribute('data-room') === name;
@@ -6023,7 +6626,7 @@
     grid.innerHTML =
       '<div class="wrap"><div class="section-head"><span class="eyebrow">ابدأ من هنا</span><h2>اختر غرفتك</h2>' +
       '<p>الموقع مقسّم إلى غرف، ادخل التي تحتاجها الآن ولا تتعب في التمرير الطويل.</p></div><div class="rooms-grid">' +
-      ['learn', 'train', 'tools', 'sos', 'about'].map(function(r){
+      ['learn', 'train', 'tools', 'games', 'sos', 'about'].map(function(r){
         const d = VN_ROOMS[r];
         return '<button type="button" class="room-card' + (r === 'sos' ? ' sos' : '') + '" onclick="vnShowRoom(\'' + r + '\')">' +
           '<span class="room-ico">' + vnIcon(r, 24) + '</span><b>' + d.title + '</b><small>' + d.card + '</small><span class="room-go">←</span></button>';
@@ -6032,7 +6635,7 @@
     if(heroEl) heroEl.after(grid); else c.prepend(grid);
 
     // banner at the top of every room except home
-    ['learn', 'train', 'tools', 'sos', 'about'].forEach(function(r){
+    ['learn', 'train', 'tools', 'games', 'sos', 'about'].forEach(function(r){
       const d = VN_ROOMS[r];
       const b = document.createElement('div');
       b.className = 'room-banner';
@@ -6073,6 +6676,7 @@
       vnShowRoom(r, { fromPop:true });
     });
 
+    try{ arcMenuRender(); }catch(e){}
     vnShowRoom('home', { silent:true, noScroll:true });
     try{ history.replaceState({ vnRoom:'home' }, ''); }catch(e){}
     const hh = window.location.hash;
@@ -6777,6 +7381,7 @@
     'photo-privacy': 'كاشف بيانات الصور',
     'safety-check': 'فحص أمانك الرقمي',
     'case-studies': 'قصص واقعية',
+    'arcade': 'قاعة الألعاب',
     'about': 'عن الموقع',
     'feedback': 'شارك رأيك',
     'layers': 'طبقات الحماية'
