@@ -1014,7 +1014,7 @@
   }
   @keyframes lcPulse{ 0%,100%{ opacity:.55; } 50%{ opacity:1; } }
   .box{
-    position:relative; width:min(370px, calc(100vw - 32px)); height:545px;
+    position:relative; width:min(370px, calc(100vw - 32px)); height:455px;
     background:#0e0b16; border-radius:50px 5px; overflow:hidden;
     box-shadow:0 0 40px rgba(110,90,255,.28);
   }
@@ -1063,7 +1063,6 @@
     position:absolute; inset-inline-end:8px; bottom:13px; z-index:11; display:flex; cursor:pointer; color:#8f8f8f; transition:.5s;
   }
   .input-box input:focus ~ .gl-eye, .input-box input:not(:placeholder-shown) ~ .gl-eye{ color:#1a0f2e; }
-  #lock-input{ padding-inline-end:36px; }
   .lc-submit{
     border:none; outline:none; padding:11px 25px; background:linear-gradient(90deg,#9a52ff,#3d8bff); color:#fff;
     cursor:pointer; font-size:.95em; border-radius:30px; font-weight:600; width:100%; margin-top:16px;
@@ -1071,11 +1070,12 @@
   }
   .lc-submit:active{ opacity:.8; }
   .box .gl-error{ margin-top:8px; }
-  .box .links{ display:flex; justify-content:space-between; gap:6px; margin-top:auto; }
+  .box .links{ display:flex; justify-content:center; gap:6px; margin-top:auto; }
+  .box .links a:only-child{ color:#c77dff; direction:ltr; }
   .box .links a{ margin:10px 0 0; font-size:.7em; white-space:nowrap; color:#8f8f8f; text-decoration:none; font-family:'Poppins','Tajawal',sans-serif; }
   .box .links a:hover, .box .links a:nth-child(2){ color:#c77dff; }
   .box .links a:nth-child(2){ direction:ltr; }
-  @media (max-height:600px){ .box{ height:500px; } .box form{ padding:32px 36px; } .input-box{ margin-top:28px; } }
+  @media (max-height:600px){ .box{ height:420px; } .box form{ padding:32px 36px; } .input-box{ margin-top:28px; } }
 
   #site-content{display:none;}
 
@@ -1624,16 +1624,9 @@
           <span>إيميلك</span>
           <i></i>
         </div>
-        <div class="input-box">
-          <input type="password" id="lock-input" placeholder=" " autocomplete="off" required>
-          <span>كلمة المرور</span>
-          <i></i>
-          <b class="gl-eye" onclick="toggleLockPassword()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></b>
-        </div>
         <input type="button" class="lc-submit" value="دخول" onclick="checkLockPassword()">
         <div class="gl-error" id="lock-error"></div>
         <div class="links">
-          <a href="mailto:Plumablanca026@gmail.com">ما عندك كلمة المرور؟</a>
           <a href="mailto:Plumablanca026@gmail.com">Plumablanca026@gmail.com</a>
         </div>
       </form>
@@ -3539,8 +3532,6 @@
       navigator.serviceWorker.register('sw.js').catch(function(){});
     });
   }
-
-  const SITE_PASSWORD = "Zolo99";
 
   /* ================= LESSON QUIZZES ================= */
   const LESSON_QUIZZES = {
@@ -7280,31 +7271,21 @@
     });
   }
 
-  function toggleLockPassword(){
-    const inp = document.getElementById('lock-input');
-    inp.type = (inp.type === 'password') ? 'text' : 'password';
-  }
-
   function checkLockPassword(){
     const nameVal = document.getElementById('lock-username').value.trim();
     const emailVal = document.getElementById('lock-email').value.trim();
-    const val = document.getElementById('lock-input').value;
     const err = document.getElementById('lock-error');
     if(!nameVal){
       err.textContent = 'يرجى كتابة اسمك أولاً';
       return;
     }
-    if(!emailVal || emailVal.indexOf('@') === -1){
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)){
       err.textContent = 'يرجى كتابة إيميل صحيح';
       return;
     }
-    if(val === SITE_PASSWORD){
-      err.textContent = '';
-      logVisitor(nameVal, emailVal);
-      showConnecting(showIntroAnimation);
-    } else {
-      err.textContent = 'كلمة المرور غير صحيحة';
-    }
+    err.textContent = '';
+    logVisitor(nameVal, emailVal);
+    showConnecting(showIntroAnimation);
   }
 
   document.getElementById('lock-username').addEventListener('keydown', function(e){
@@ -7312,10 +7293,6 @@
   });
 
   document.getElementById('lock-email').addEventListener('keydown', function(e){
-    if(e.key === 'Enter'){ document.getElementById('lock-input').focus(); }
-  });
-
-  document.getElementById('lock-input').addEventListener('keydown', function(e){
     if(e.key === 'Enter'){ checkLockPassword(); }
   });
 
